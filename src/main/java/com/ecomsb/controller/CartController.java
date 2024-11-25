@@ -1,6 +1,10 @@
 package com.ecomsb.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,11 +27,13 @@ public class CartController {
 	}	
 	
 	@GetMapping("/cart")
-	public String cartGet(Model model) {			
-			model.addAttribute("cartCount",GlobalData.cart.size());
-			model.addAttribute("total", GlobalData.cart.stream().mapToDouble(Product::getPrice).sum() );
-			model.addAttribute("cart",GlobalData.cart);			
-		return "cart";
+	public ResponseEntity<?> cartGet() {	
+		Map<String, Object> response = new HashMap<String, Object>();
+		response.put("cartCount",GlobalData.cart.size());
+		response.put("total", GlobalData.cart.stream().mapToDouble(Product::getPrice).sum() );
+		response.put("cart",GlobalData.cart);	
+			
+		return ResponseEntity.ok(response);
 	}
 	
 	@GetMapping("/cart/removeItem/{index}")
@@ -37,9 +43,11 @@ public class CartController {
 	}
 	
 	@GetMapping("/checkout")
-	public String checkout(Model model) {
-		model.addAttribute("total", GlobalData.cart.stream().mapToDouble(Product::getPrice).sum()  );
-		return "checkout";
+	public ResponseEntity<?> checkout(Model model) {
+		Map<String, Object> response = new HashMap<String, Object>();
+		response.put("total", GlobalData.cart.stream().mapToDouble(Product::getPrice).sum()  );
+		
+		return ResponseEntity.ok(response);
 	}
 	
 	

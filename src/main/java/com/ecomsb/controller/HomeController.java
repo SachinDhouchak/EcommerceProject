@@ -1,10 +1,15 @@
 package com.ecomsb.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.ecomsb.global.GlobalData;
 import com.ecomsb.model.Category;
@@ -14,7 +19,7 @@ import com.ecomsb.service.ProductService;
 
 
 
-@Controller
+@RestController
 public class HomeController {
 
 	@Autowired
@@ -24,36 +29,42 @@ public class HomeController {
 	ProductService productService;
 	
 	@GetMapping({"/","/home"})
-	public String home(Model model) {
-		model.addAttribute("cartCount",GlobalData.cart.size());
-		return "index";
+	public ResponseEntity<?> home() {
+		Map<String, Object> response = new HashMap<String, Object>();
+		response.put("cartCount",GlobalData.cart.size() );
+		
+		return ResponseEntity.ok(response);
 	}
 	
 	@GetMapping("/shop") 
-	public String shop(Model model) {
-		model.addAttribute("categories", categoryService.getAllCategory());
-		model.addAttribute("products", productService.getAllProduct() );
-		model.addAttribute("cartCount",GlobalData.cart.size());
+	public ResponseEntity<?> shop() {
+		Map<String, Object> response = new HashMap<String, Object>();
 		
-		return "shop";
+		response.put("categories", categoryService.getAllCategory() );		
+		response.put("products", productService.getAllProduct() );		
+		response.put("cartCount",GlobalData.cart.size());
+		
+		return ResponseEntity.ok(response);
 	}
+	
 	
 	@GetMapping("/shop/category/{id}")
-	public String shopByCategory(@PathVariable int id,Model model) {
-		
-		model.addAttribute("categories", categoryService.getAllCategory() );		
-		model.addAttribute("products", productService.getAllProductsByCategoryId(id));
-		model.addAttribute("cartCount",GlobalData.cart.size());
-		model.addAttribute("cartCount",GlobalData.cart.size());
-		
-		return "shop";
-	}
+    public ResponseEntity<?> shopByCategory(@PathVariable int id) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("categories", categoryService.getAllCategory());
+        response.put("products", productService.getAllProductsByCategoryId(id));
+        response.put("cartCount", GlobalData.cart.size());
+
+        return ResponseEntity.ok(response);
+    }
+	
 	
 	@GetMapping("/shop/viewproduct/{id}")
-	public String viewProduct(@PathVariable int id,Model model) {
+	public ResponseEntity<?> viewProduct(@PathVariable int id) {
+		Map<String, Object> response = new HashMap<String, Object>();				
+		response.put("product", productService.getProductById(id).get() );    // if get() is not there what happen   
 		
-		model.addAttribute("product", productService.getProductById(id).get() );	// if get() is not there what happen	
-		return "viewProduct";
+		return ResponseEntity.ok(response);
 	}
 	
 	

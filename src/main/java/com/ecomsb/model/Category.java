@@ -6,7 +6,7 @@ import javax.persistence.*;
 public class Category {
 
 	@Id	
-	// @GeneratedValue(strategy=GenerationType.AUTO)       this should be come
+	 @GeneratedValue(strategy=GenerationType.AUTO)      // this should be come
 	@Column(name= "category_id")
 	private int id;
 	

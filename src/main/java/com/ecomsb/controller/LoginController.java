@@ -9,11 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.ecomsb.global.GlobalData;
 import com.ecomsb.model.Role;
 import com.ecomsb.model.User;
 import com.ecomsb.repository.RoleRepository;
@@ -31,11 +29,11 @@ public class LoginController {
 	@Autowired
 	public UserRepository userRepository;
 	
-	@GetMapping("/login")
-	public String login() {
-		GlobalData.cart.clear();
-		return "login";
-	}
+//	@GetMapping("/login")
+//	public String login() {
+//		GlobalData.cart.clear();
+//		return "login";
+//	}
 	
 	@PostMapping("/register")
 	public String registerPost(@ModelAttribute("user") User user,HttpServletRequest request) throws ServletException {

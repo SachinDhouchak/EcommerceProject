@@ -4,9 +4,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ecomsb.dto.ProductDTO;
@@ -23,8 +29,8 @@ import com.ecomsb.model.Product;
 import com.ecomsb.service.CategoryService;
 import com.ecomsb.service.ProductService;
 
-@ResponseBody
-@Controller
+
+@RestController
 public class AdminController {
 
 	@Autowired
@@ -36,16 +42,22 @@ public class AdminController {
 	}
 	
 	@GetMapping("/admin/categories")
-	public String getCat(Model model) {
-		model.addAttribute("categories", categoryService.getAllCategory() );
-		return "categories";
+	public ResponseEntity<?> getCat() {
+		Map<String, Object> response = new HashMap<String, Object>();
+		response.put("categories", categoryService.getAllCategory() );
+		
+		return ResponseEntity.ok(response);
 	}
 	
+	
 	@GetMapping("/admin/categories/add")
-	public String getCatAdd(Model model) {
-		model.addAttribute("category", new Category());      // category name is from backend and backend name should be category exact 
-		return "categoriesAdd";
+	public ResponseEntity<?> getCatAdd() {
+		Map<String, Object> response = new HashMap<String, Object>();
+		response.put("category", new Category());
+		
+		return ResponseEntity.ok(response);
 	}
+	
 	
 	@PostMapping("/admin/categories/add")
 	public String posCatAdd(@ModelAttribute("category") Category category) {       // category exact this name should be in frontend
@@ -60,14 +72,16 @@ public class AdminController {
 	}
 	
 	@PostMapping("/admin/categories/update/{id}")
-	public String updateCat(@PathVariable int id,Model model) {
+	public ResponseEntity<?> updateCat(@PathVariable int id) {
 		
 		Optional<Category> category = categoryService.getCategoryById(id);
+		
+		Map<String, Object> response = new HashMap<String, Object>();
 		  if (category.isPresent()) {
-			model.addAttribute("category", category.get());
-			return "categoriesAdd";
+			  response.put("category", category.get());
+			return ResponseEntity.ok(response);
 		}else {
-			return "404";
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response)  ;
 		}			
 	}
 	
@@ -85,17 +99,21 @@ public class AdminController {
 	
 	
 	@GetMapping("/admin/products")
-	public String products(Model model) {
-		model.addAttribute("products", productService.getAllProduct() );
-		return "products";
+	public ResponseEntity<?> products() {
+		Map<String, Object> response = new HashMap<String, Object>();
+		response.put("products", productService.getAllProduct() );
+		
+		return ResponseEntity.ok(response);
 	}
 	
 	
 	@GetMapping("/admin/products/add")
-	public String productAddGet(Model model) {
-		model.addAttribute("productDTO", new ProductDTO() );
-		model.addAttribute("categories", categoryService.getAllCategory() );
-		return "productsAdd";
+	public ResponseEntity<?> productAddGet() {
+		Map<String, Object> response = new HashMap<String, Object>();
+		response.put("productDTO", new ProductDTO() );
+		response.put("categories", categoryService.getAllCategory() );
+		
+		return ResponseEntity.ok(response);
 	}
 	
 	@PostMapping("/admin/products/add")
@@ -135,7 +153,7 @@ public class AdminController {
 	
 	
 	@GetMapping("/admin/product/update/{id}")
-	public String updateProductGet(@PathVariable long id, Model model) {
+	public ResponseEntity<?> updateProductGet(@PathVariable long id) {
 		
 		Product product = productService.getProductById(id).get();
 		
@@ -146,12 +164,13 @@ public class AdminController {
 		productDTO.setPrice(product.getPrice());
 		productDTO.setWeight(product.getWeight());
 		productDTO.setDescription(product.getDescription());
-		productDTO.setImageName(product.getImageName());  
-		model.addAttribute("categories", categoryService.getAllCategory() );
-		model.addAttribute("productDTO", productDTO );
+		productDTO.setImageName(product.getImageName());
 		
+		Map<String, Object> response = new HashMap<String, Object>();
+		response.put("categories", categoryService.getAllCategory() );
+		response.put("productDTO", productDTO );		
 		
-		return "productsAdd";
+		return ResponseEntity.ok(response);
 	}
 	
 	
