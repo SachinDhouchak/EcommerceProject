@@ -22,7 +22,8 @@ import com.ecomsb.repository.UserRepository;
 @SpringBootApplication
 public class EcomApplication  {
 	
-	
+	@Autowired
+	ProductRepository productRepository;
 
 	@Autowired
 	private CategoryRepository categoryRepository;
@@ -40,25 +41,8 @@ public class EcomApplication  {
 		SpringApplication.run(EcomApplication.class, args);
 	}
 	
-	@Autowired
-	ProductRepository productRepository;
 	
-//	@Override
-//	public void run(String... args) throws Exception {
-//		
-//		Category category =	new categoryRepository.findById(1);
-//		
-//		Product product= new Product();
-//		product.setDescription("This is fresh banana");
-//		product.setName("Banana");
-//		product.setPrice(80);
-//		product.setWeight(1000);
-//		product.setImageName("apple.png");
-//		product.setCategory(category);		
-//		productRepository.save(product);
-//		
-//		
-//	}
+	
 
 
 

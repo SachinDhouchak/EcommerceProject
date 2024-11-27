@@ -1,22 +1,28 @@
 package com.ecomsb.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.Table;
 
 @Entity
-public class Document {
+@Table(name="image_data")
+public class ImageData {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	public Long id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
 	
-	public String name;
+	private String name;
 	
-	public String type;
+	private String type;
 	
-	public byte[] content;
+	@Lob
+	@Column(name="image",length=1000)
+	private byte[] imageData;
 
 	public Long getId() {
 		return id;
@@ -42,12 +48,14 @@ public class Document {
 		this.type = type;
 	}
 
-	public byte[] getContent() {
-		return content;
+	public byte[] getImageData() {
+		return imageData;
 	}
 
-	public void setContent(byte[] content) {
-		this.content = content;	}
+	public void setImageData(byte[] imageData) {
+		this.imageData = imageData;
+	}
+	
 	
 	
 	
