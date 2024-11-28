@@ -20,6 +20,9 @@ import com.ecomsb.repository.UserRepository;
 
 @SpringBootApplication
 public class EcomApplication  {	
+	
+	@Autowired
+	ProductRepository productRepository;
 
 	@Autowired
 	private CategoryRepository categoryRepository;
@@ -33,15 +36,10 @@ public class EcomApplication  {
 	@Autowired
 	UserRepository userRepository;
 	
-	@Autowired
-	ProductRepository productRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(EcomApplication.class, args);
 	}
 
-	
-	
-	
 
 }
