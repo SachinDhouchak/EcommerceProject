@@ -40,7 +40,7 @@ public class HomeController {
 	public ResponseEntity<?> shop() {
 		Map<String, Object> response = new HashMap<String, Object>();
 		
-		response.put("categories", categoryService.getAllCategory() );		
+		//response.put("categories", categoryService.getAllCategory() );		
 		response.put("products", productService.getAllProduct() );		
 		response.put("cartCount",GlobalData.cart.size());
 		
@@ -51,7 +51,7 @@ public class HomeController {
 	@GetMapping("/shop/category/{id}")
     public ResponseEntity<?> shopByCategory(@PathVariable int id) {
         Map<String, Object> response = new HashMap<>();
-        response.put("categories", categoryService.getAllCategory());
+      //  response.put("categories", categoryService.getAllCategory());
         response.put("products", productService.getAllProductsByCategoryId(id));
         response.put("cartCount", GlobalData.cart.size());
 

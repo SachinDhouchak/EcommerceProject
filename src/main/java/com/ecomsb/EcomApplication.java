@@ -1,6 +1,5 @@
 package com.ecomsb;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,48 +19,29 @@ import com.ecomsb.repository.RoleRepository;
 import com.ecomsb.repository.UserRepository;
 
 @SpringBootApplication
-public class EcomApplication  {
-	
-	
+public class EcomApplication  {	
 
 	@Autowired
 	private CategoryRepository categoryRepository;
-	
+
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
-	
+
 	@Autowired
 	RoleRepository roleRepository;
-	
+
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	ProductRepository productRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(EcomApplication.class, args);
 	}
+
 	
-	@Autowired
-	ProductRepository productRepository;
 	
-//	@Override
-//	public void run(String... args) throws Exception {
-//		
-//		Category category =	new categoryRepository.findById(1);
-//		
-//		Product product= new Product();
-//		product.setDescription("This is fresh banana");
-//		product.setName("Banana");
-//		product.setPrice(80);
-//		product.setWeight(1000);
-//		product.setImageName("apple.png");
-//		product.setCategory(category);		
-//		productRepository.save(product);
-//		
-//		
-//	}
-
-
-
 	
 
 }

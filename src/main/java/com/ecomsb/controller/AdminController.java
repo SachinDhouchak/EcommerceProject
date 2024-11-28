@@ -28,6 +28,7 @@ import com.ecomsb.model.Category;
 import com.ecomsb.model.Product;
 import com.ecomsb.service.CategoryService;
 import com.ecomsb.service.ProductService;
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 
 
 @RestController
@@ -42,9 +43,12 @@ public class AdminController {
 	}
 	
 	@GetMapping("/admin/categories")
-	public ResponseEntity<?> getCat() {
+	public ResponseEntity<?> getCat(
+			@RequestParam(value="pageNumber", defaultValue="1", required=false) Integer pageNumber,
+			@RequestParam(value="pageSize", defaultValue="1", required=false) Integer pageSize
+			) {
 		Map<String, Object> response = new HashMap<String, Object>();
-		response.put("categories", categoryService.getAllCategory() );
+		response.put("categories", categoryService.getAllCategory(pageNumber,pageSize) );
 		
 		return ResponseEntity.ok(response);
 	}
@@ -111,7 +115,7 @@ public class AdminController {
 	public ResponseEntity<?> productAddGet() {
 		Map<String, Object> response = new HashMap<String, Object>();
 		response.put("productDTO", new ProductDTO() );
-		response.put("categories", categoryService.getAllCategory() );
+		//response.put("categories", categoryService.getAllCategory() );
 		
 		return ResponseEntity.ok(response);
 	}
@@ -167,7 +171,7 @@ public class AdminController {
 		productDTO.setImageName(product.getImageName());
 		
 		Map<String, Object> response = new HashMap<String, Object>();
-		response.put("categories", categoryService.getAllCategory() );
+		//response.put("categories", categoryService.getAllCategory() );
 		response.put("productDTO", productDTO );		
 		
 		return ResponseEntity.ok(response);
