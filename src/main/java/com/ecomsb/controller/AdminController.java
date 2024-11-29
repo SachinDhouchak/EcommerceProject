@@ -12,14 +12,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,7 +25,6 @@ import com.ecomsb.model.Category;
 import com.ecomsb.model.Product;
 import com.ecomsb.service.CategoryService;
 import com.ecomsb.service.ProductService;
-import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 
 
 @RestController
@@ -88,6 +84,18 @@ public class AdminController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response)  ;
 		}			
 	}
+	
+	
+	@GetMapping("/admin/categories/search/{name}")
+	public ResponseEntity<?> searchCategories(@PathVariable("name") String name  ) {		
+		List<Category> response = categoryService.searchData(name);	
+		
+		if (response == null || response.isEmpty()) {
+            return ResponseEntity.status(404).body("No categories found");
+        }
+		return ResponseEntity.ok(response);
+	}
+	
 	
 	
 	

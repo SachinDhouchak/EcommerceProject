@@ -15,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ecomsb.model.Image;
 import com.ecomsb.service.ImageService;
-import com.ecomsb.service.StorageService;
 
 
 @RestController
@@ -24,8 +23,6 @@ public class ImageController {
 	@Autowired
 	private ImageService imageService;
 	
-	@Autowired
-	private StorageService storageService;
 
 	@PostMapping("/addImage")
 	public ResponseEntity<String> addImage(
@@ -55,20 +52,6 @@ public class ImageController {
 		          
 	}
 	
-	@PostMapping("/addImage")
-	public ResponseEntity<String> uploadImage(
-			@RequestParam("file") MultipartFile file) {
-		if (file.isEmpty()) {
-			System.out.println("No file is uploaded");
-			return ResponseEntity.status(400).body("No file uploaded");
-		}
-		try {
-			String result = storageService.uploadImage(file);
-			System.out.println("file uploaded successfully");
-			return ResponseEntity.ok(result);
-		} catch (IOException e) {
-			return ResponseEntity.status(500).body("Failed to upload image");
-		}
-	}
+	
 
 }
