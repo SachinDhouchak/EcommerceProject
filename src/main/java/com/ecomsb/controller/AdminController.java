@@ -65,6 +65,7 @@ public class AdminController {
 		return "redirect:/admin/categories";
 	}
 	
+	
 	@GetMapping("/admin/categories/delete/{id}")
 	public String deleteCat(@PathVariable int id) {
 		categoryService.removeCategoryById(id);
@@ -78,7 +79,7 @@ public class AdminController {
 		
 		Map<String, Object> response = new HashMap<String, Object>();
 		  if (category.isPresent()) {
-			  response.put("category", category.get());
+			  response.put("category", category.get() );
 			return ResponseEntity.ok(response);
 		}else {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response)  ;
@@ -107,7 +108,7 @@ public class AdminController {
 	@Autowired
 	ProductService productService;
 	
-	public static String uploadDir = System.getProperty("user.dir") + "/src/main/resources/static/productImages";
+	
 	
 	
 	@GetMapping("/admin/products")
@@ -130,7 +131,7 @@ public class AdminController {
 	
 	@PostMapping("/admin/products/add")
 	public String productAddPost(@ModelAttribute("productDTO") ProductDTO productDTO,
-			   @RequestParam("productImage") MultipartFile file, @RequestParam("imgName") String imgName  ) throws IOException {
+			   @RequestParam("productImage") MultipartFile file, @RequestParam("imgName") String imgName) throws IOException {
 		
 		Product product = new Product();		
 		product.setId(productDTO.getId());		
@@ -139,18 +140,7 @@ public class AdminController {
 		product.setPrice(productDTO.getPrice());		
 		product.setWeight(productDTO.getWeight());		
 		product.setDescription(productDTO.getDescription());
-		
-		String imageUUID;
-		if(!file.isEmpty()) {
-			imageUUID = file.getOriginalFilename();
-			Path fileNameAndPath = Paths.get(uploadDir, imageUUID);
-			Files.write(fileNameAndPath, file.getBytes() );
-		}else {
-			imageUUID = imgName;
-		}
-		
-		product.setImageName(imageUUID);
-		
+				
 		productService.addProduct(product);
 		
 		return "redirect:/admin/products";

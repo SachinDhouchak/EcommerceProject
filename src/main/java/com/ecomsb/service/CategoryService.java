@@ -39,6 +39,14 @@ public class CategoryService {
 	
 	public void removeCategoryById(int id) { categoryRepository.deleteById(id); }
 	
-	public Optional<Category> getCategoryById(int id) { return categoryRepository.findById(id); }
+	public Optional<Category> getCategoryById(int id) { return (Optional<Category>) categoryRepository.findById(id); }
+	
+	public List<Category> searchData(String name) {
+		 return categoryRepository.findByNameContaining(name);
+		 
+	}
+	
+	
+	
 	
 }
